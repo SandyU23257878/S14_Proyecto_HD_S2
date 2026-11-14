@@ -10,12 +10,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./api-productos
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: api-productos/package-lock.json
 
-      - run: npm install
+      - run: npm ci
       - run: npm test
