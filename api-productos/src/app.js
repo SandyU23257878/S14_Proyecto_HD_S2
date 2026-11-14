@@ -27,4 +27,31 @@ app.post('/productos', (req, res) => {
     res.status(201).json(nuevoProducto);
 });
 
+app.put('/productos/:id', (req, res) => {
+    const { id } = req.params;
+    const { nombre, precio } = req.body;
+    const producto = productos.find(p => p.id === parseInt(id));
+
+    if (!producto) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    producto.nombre = nombre;
+    producto.precio = precio;
+
+    res.json(producto);
+});
+
+app.delete('/productos/:id', (req, res) => {
+    const { id } = req.params;
+    const producto = productos.find(p => p.id === parseInt(id));
+
+    if (!producto) {
+        return res.status(404).json({ error: 'Producto no encontrado' });
+    }
+
+    productos = productos.filter(p => p.id !== parseInt(id));
+    res.json({ message: 'Producto eliminado' });
+});
+
 module.exports = app;
